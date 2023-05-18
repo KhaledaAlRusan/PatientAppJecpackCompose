@@ -1,5 +1,8 @@
 package com.example.patientappcompose.ui.features.patients
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PatientsViewModel @Inject constructor(private val repo: PatientRepo):ViewModel() {
+
+    var selectedPatientId by mutableStateOf<String?>(null)
 
     private val _patientMutableStateFlow: MutableStateFlow<List<PatientDataModel>> = MutableStateFlow(emptyList())
     val patientStateFlow = _patientMutableStateFlow.asStateFlow()

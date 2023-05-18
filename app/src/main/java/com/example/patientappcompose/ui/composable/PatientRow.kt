@@ -7,20 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,23 +27,22 @@ import com.example.patientappcompose.ui.theme.brightBlue
 import com.example.patientappcompose.ui.theme.darkBlue
 
 @SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PatientRow(
     record: PatientDataModel,
     modifier: Modifier = Modifier,
-    onClick:() -> Unit = {},
-    onDelete: (id:String) ->Unit = {}
-
+    selectedPatientId: String?,
+    onClick:() ->Unit = {},
+    onDelete: (id:String) -> Unit = {}
 ){
-    val isSelected by derivedStateOf { record.selected}
+    val isSelected = selectedPatientId == record.id
     Box(modifier = Modifier.wrapContentSize()){
-
         Card(
-            modifier = modifier.wrapContentHeight(),
+            modifier = modifier.wrapContentHeight().clickable {
+                onClick()
+            },
             shape = RoundedCornerShape(16.dp),
-            colors = selected(isSelected),
-            onClick = {onClick()}
+            colors = selected(isSelected)
         ) {
 
             Column(
@@ -90,7 +83,7 @@ fun selected(clicked: Boolean):CardColors{
 
 @Composable
 @Preview(showSystemUi = true)
-fun previewPatientRow(){
+fun PreviewPatientRow(){
     val patientData = PatientDataModel(
         address = "123 Main St",
         birthdate = "1990-01-01",
@@ -106,5 +99,5 @@ fun previewPatientRow(){
         updatedAt = "2023-05-18T12:34:56Z",
         v = 1
     )
-    PatientRow(record = patientData)
+    PatientRow(record = patientData, selectedPatientId = null)
 }

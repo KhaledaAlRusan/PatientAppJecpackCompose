@@ -24,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.unit.dp
@@ -72,17 +73,19 @@ fun AllPatients(
                     data[index].id
                 }
             ) { index ->
-                PatientRow(
-                    record = data[index],
-                    Modifier.animateItemPlacement(),
-                    onClick = {
-                        Toast.makeText(context, data[index].name, Toast.LENGTH_SHORT).show()
-                    },
-                    onDelete = {
+                Box(modifier = Modifier.animateItemPlacement()) {
+                    PatientRow(
+                        record = data[index],
+                        onClick = {
+                            viewModel.selectedPatientId = data[index].id
+                        },
+                        selectedPatientId = viewModel.selectedPatientId,
+                    ) {
                         showDialog = true
                         patientToDelete = it
                     }
-                )
+                }
+
             }
         }
         PullRefreshIndicator(
@@ -92,9 +95,7 @@ fun AllPatients(
         )
     }
     if (showDialog) {
-        deletePatientDialog(
-            context = context,
-            id = patientToDelete ?: return,
+        DeletePatientDialog(
             onDelete = {
                 deleteScope.launch {
                     viewModel.deletePatient(patientToDelete!!)
@@ -107,9 +108,7 @@ fun AllPatients(
     }
 }
 @Composable
-fun deletePatientDialog(
-    context: Context,
-    id: String,
+fun DeletePatientDialog(
     onDelete: () -> Unit,
     onDismiss: () -> Unit
 ) {
