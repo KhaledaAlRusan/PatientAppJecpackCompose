@@ -1,9 +1,6 @@
 package com.example.patientappcompose.domain.model.patients
 
-import android.text.BoringLayout
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

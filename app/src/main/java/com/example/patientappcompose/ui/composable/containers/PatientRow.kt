@@ -1,4 +1,4 @@
-package com.example.patientappcompose.ui.composable
+package com.example.patientappcompose.ui.composable.containers
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.patientappcompose.R
 import com.example.patientappcompose.domain.model.patients.PatientDataModel
+import com.example.patientappcompose.ui.composable.components.VerticalSpacer
 import com.example.patientappcompose.ui.theme.brightBlue
 import com.example.patientappcompose.ui.theme.darkBlue
 
@@ -32,14 +33,14 @@ fun PatientRow(
     record: PatientDataModel,
     modifier: Modifier = Modifier,
     selectedPatientId: String?,
-    onClick:(id:String) ->Unit = {},
-    onDelete: (id:String) -> Unit = {}
+    onClick:() ->Unit = {},
+    onDelete: () -> Unit = {}
 ){
     val isSelected = selectedPatientId == record.id
-    Box(modifier = Modifier.wrapContentSize(),){
+    Box(modifier = Modifier.wrapContentSize()){
         Card(
             modifier = modifier.wrapContentHeight().clickable {
-                onClick(record.id)
+                onClick()
             },
             shape = RoundedCornerShape(16.dp),
             colors = selected(isSelected)
@@ -67,7 +68,7 @@ fun PatientRow(
         Image(
             painter = painterResource( R.drawable.ic_delete),
             contentDescription = "Delete Item",
-            modifier = Modifier.align(Alignment.TopEnd).padding(16.dp).clickable { onDelete(record.id) }
+            modifier = Modifier.align(Alignment.TopEnd).padding(16.dp).clickable { onDelete() }
         )
     }
 }

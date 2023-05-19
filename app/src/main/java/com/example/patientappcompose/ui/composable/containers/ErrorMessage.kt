@@ -1,4 +1,4 @@
-package com.example.patientappcompose.ui.screens
+package com.example.patientappcompose.ui.composable.containers
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

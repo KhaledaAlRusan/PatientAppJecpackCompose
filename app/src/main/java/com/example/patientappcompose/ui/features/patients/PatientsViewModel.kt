@@ -3,12 +3,9 @@ package com.example.patientappcompose.ui.features.patients
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.patientappcompose.data.repo.PatientRepo
-import com.example.patientappcompose.domain.model.delete.DeletePatientRemoteModel
 import com.example.patientappcompose.domain.model.patients.PatientDataModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
