@@ -32,14 +32,14 @@ fun PatientRow(
     record: PatientDataModel,
     modifier: Modifier = Modifier,
     selectedPatientId: String?,
-    onClick:() ->Unit = {},
+    onClick:(id:String) ->Unit = {},
     onDelete: (id:String) -> Unit = {}
 ){
     val isSelected = selectedPatientId == record.id
-    Box(modifier = Modifier.wrapContentSize()){
+    Box(modifier = Modifier.wrapContentSize(),){
         Card(
             modifier = modifier.wrapContentHeight().clickable {
-                onClick()
+                onClick(record.id)
             },
             shape = RoundedCornerShape(16.dp),
             colors = selected(isSelected)
