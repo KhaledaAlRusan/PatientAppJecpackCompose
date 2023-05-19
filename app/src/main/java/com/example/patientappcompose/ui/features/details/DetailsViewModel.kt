@@ -1,14 +1,12 @@
-package com.example.patientappcompose.ui.features.patients
+package com.example.patientappcompose.ui.features.details
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.patientappcompose.data.repo.PatientRepo
-import com.example.patientappcompose.domain.model.delete.DeletePatientRemoteModel
 import com.example.patientappcompose.domain.model.patients.PatientDataModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,13 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PatientsViewModel @Inject constructor(private val repo: PatientRepo):ViewModel() {
+class DetailsViewModel @Inject constructor(private val repo: PatientRepo): ViewModel() {
 
-    var selectedPatientId by mutableStateOf<String?>(null)
-
-    private val _patientMutableStateFlow: MutableStateFlow<List<PatientDataModel>> = MutableStateFlow(emptyList())
-    val patientStateFlow = _patientMutableStateFlow.asStateFlow()
-
+    private val _detailsSuccessStateFlow:MutableStateFlow<PatientDataModel?> = MutableStateFlow(null)
+    val detailsSuccessStateFlow = _detailsSuccessStateFlow.asStateFlow()
 
     private val _loadingMutableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val loadingStateFlow = _loadingMutableStateFlow.asStateFlow()
@@ -31,23 +26,19 @@ class PatientsViewModel @Inject constructor(private val repo: PatientRepo):ViewM
     private val _errorMutableStateFlow: MutableStateFlow<Exception?> = MutableStateFlow(null)
     val errorStateFlow = _errorMutableStateFlow.asStateFlow()
 
+    fun details(id: String) {
 
-    init {
-        getPatients()
-    }
-
-    fun getPatients(){
         viewModelScope.launch {
             _loadingMutableStateFlow.emit(true)
             try {
-                _patientMutableStateFlow.emit(repo.getPatients())
+                _detailsSuccessStateFlow.emit(repo.detailsPatient(id))
+                Log.d("working!","Working")
             }
-            catch (e:Exception)
-            {
+            catch (e:Exception){
                 _errorMutableStateFlow.emit(e)
             }
             _loadingMutableStateFlow.emit(false)
-
         }
     }
+
 }

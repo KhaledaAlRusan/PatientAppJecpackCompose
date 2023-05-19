@@ -38,5 +38,9 @@ data class PatientDataModel(
     //Local var
 
     var selected:Boolean =false,
-)
+){
+    fun getPatientInfo():String{
+        return "lives in $address \nEmail: $email \nBorn on $birthdate"
+    }
+}
 

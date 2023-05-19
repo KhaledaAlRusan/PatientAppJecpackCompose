@@ -19,4 +19,8 @@ class PatientRepo @Inject constructor(private val dataSource: PatientDataSource)
     suspend fun deletePatient(id:String):DeletePatientRemoteModel{
         return dataSource.deletePatient(id)
     }
+
+    suspend fun detailsPatient(id:String): PatientDataModel {
+        return dataSource.getPatient(id).data
+    }
 }
