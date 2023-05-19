@@ -1,4 +1,4 @@
-package com.example.patientappcompose.ui.composable
+package com.example.patientappcompose.ui.composable.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

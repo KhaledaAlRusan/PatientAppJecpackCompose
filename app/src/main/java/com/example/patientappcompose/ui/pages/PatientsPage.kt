@@ -1,4 +1,4 @@
-package com.example.patientappcompose.ui
+package com.example.patientappcompose.ui.pages
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.ExperimentalMaterial3Api

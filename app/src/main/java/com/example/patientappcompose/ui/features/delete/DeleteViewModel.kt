@@ -1,7 +1,6 @@
 package com.example.patientappcompose.ui.features.delete
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.patientappcompose.data.repo.PatientRepo
@@ -15,8 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DeleteViewModel @Inject constructor(private val repo: PatientRepo): ViewModel() {
 
-    private val _deletePatientStateFlow: MutableLiveData<DeletePatientRemoteModel?> = MutableLiveData()
-    val deletePatientStateFlow : LiveData<DeletePatientRemoteModel?> = _deletePatientStateFlow
+    private val _deletePatientStateFlow: MutableStateFlow<DeletePatientRemoteModel?> = MutableStateFlow(null)
+    val deletePatientStateFlow : MutableStateFlow<DeletePatientRemoteModel?> = _deletePatientStateFlow
 
     private val _loadingMutableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val loadingStateFlow = _loadingMutableStateFlow.asStateFlow()
@@ -28,14 +27,13 @@ class DeleteViewModel @Inject constructor(private val repo: PatientRepo): ViewMo
         viewModelScope.launch {
             _loadingMutableStateFlow.emit(true)
             try {
-                _deletePatientStateFlow.postValue(repo.deletePatient(id))
+                _deletePatientStateFlow.emit(repo.deletePatient(id))
             }
             catch (e:Exception)
             {
                 _errorMutableStateFlow.emit(e)
             }
             _loadingMutableStateFlow.emit(false)
-
         }
     }
 }

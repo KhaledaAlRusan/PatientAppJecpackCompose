@@ -27,7 +27,6 @@ class DetailsViewModel @Inject constructor(private val repo: PatientRepo): ViewM
     val errorStateFlow = _errorMutableStateFlow.asStateFlow()
 
     fun details(id: String) {
-
         viewModelScope.launch {
             _loadingMutableStateFlow.emit(true)
             try {
@@ -40,5 +39,4 @@ class DetailsViewModel @Inject constructor(private val repo: PatientRepo): ViewM
             _loadingMutableStateFlow.emit(false)
         }
     }
-
 }

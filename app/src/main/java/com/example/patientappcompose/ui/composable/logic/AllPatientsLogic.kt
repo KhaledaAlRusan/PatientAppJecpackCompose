@@ -1,4 +1,4 @@
-package com.example.patientappcompose.ui.composable
+package com.example.patientappcompose.ui.composable.logic
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -17,11 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.patientappcompose.domain.model.patients.PatientDataModel
+import com.example.patientappcompose.ui.composable.components.PatientList
+import com.example.patientappcompose.ui.composable.containers.DeletePatientDialog
 import com.example.patientappcompose.ui.features.delete.DeleteViewModel
-import com.example.patientappcompose.ui.features.details.DetailsViewModel
 import com.example.patientappcompose.ui.features.patients.PatientsViewModel
 import com.example.patientappcompose.ui.navigator.Screens
 import kotlinx.coroutines.delay
@@ -33,9 +33,9 @@ fun AllPatientsLogic(
     navController: NavController,
     data: List<PatientDataModel>,
     patientViewModel: PatientsViewModel = hiltViewModel(),
-    detailsViewModel: DetailsViewModel = hiltViewModel(),
     deleteViewModel: DeleteViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val deleteScope = rememberCoroutineScope()
     var showDialog by remember { mutableStateOf(false) }
     var patientToDelete by remember { mutableStateOf<PatientDataModel?>(null) }
@@ -47,7 +47,7 @@ fun AllPatientsLogic(
     fun refresh() = refreshScope.launch {
         refreshing = true
         patientViewModel.getPatients()
-        delay(1500)
+        delay(1000)
         refreshing = false
     }
 
@@ -56,19 +56,14 @@ fun AllPatientsLogic(
         onRefresh = ::refresh
     )
 
-    val context = LocalContext.current
-
     Box(modifier = Modifier.pullRefresh(remember)) {
         PatientList(
             data = data,
-            patientViewModel = patientViewModel,
-            detailsViewModel = detailsViewModel,
+            patientId = patientViewModel.selectedPatientId,
             onClick = { patient ->
                 val id = patient.id
                 patientViewModel.selectedPatientId = id
-                Toast.makeText(context, patient.name, Toast.LENGTH_SHORT).show()
-                detailsViewModel.details(id)
-                navController.navigate(Screens.PatientDetailsScreen.route.replace("{patientId}", id.toString()))
+                navController.navigate(Screens.PatientDetailsScreen.route.replace("{patientId}", id))
             },
             onDelete = { patient ->
                 showDialog = true
@@ -82,7 +77,6 @@ fun AllPatientsLogic(
         )
     }
 
-
     DeletePatientDialog(
         showDialog = showDialog,
         patient = patientToDelete,
@@ -95,5 +89,4 @@ fun AllPatientsLogic(
         },
         onDismiss = { showDialog = false }
     )
-
 }

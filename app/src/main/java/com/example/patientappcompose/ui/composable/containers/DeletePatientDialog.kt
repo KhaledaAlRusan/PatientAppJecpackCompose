@@ -1,7 +1,8 @@
-package com.example.patientappcompose.ui.composable
+package com.example.patientappcompose.ui.composable.containers
 
 import androidx.compose.runtime.Composable
 import com.example.patientappcompose.domain.model.patients.PatientDataModel
+import com.example.patientappcompose.ui.composable.components.DeleteDialog
 
 @Composable
 fun DeletePatientDialog(

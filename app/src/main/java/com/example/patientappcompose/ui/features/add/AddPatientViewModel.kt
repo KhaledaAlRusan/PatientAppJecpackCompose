@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.patientappcompose.data.repo.PatientRepo
 import com.example.patientappcompose.domain.model.add.AddPatientModel
 import com.example.patientappcompose.domain.model.patients.PatientDataModel
-import com.example.patientappcompose.domain.model.patients.PatientsRemoteResponseModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
